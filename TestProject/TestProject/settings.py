@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'testapp.apps.TestappConfig',
     'controlqueue.apps.ControlqueueConfig',
     'django.contrib.admin',
@@ -71,6 +72,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TestProject.wsgi.application'
 
+ASGI_APPLICATION = 'TestProject.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
