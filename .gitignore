@@ -1,0 +1,9 @@
+TestProject/.vscode/
+TestProject/TestProject/__pycache__/
+TestProject/controlqueue/__pycache__/
+TestProject/controlqueue/migrations/__pycache__/
+TestProject/testapp/__pycache__/
+TestProject/testapp/migrations/__pycache__/
+venv/
+/.vscode/
+db.sqlite3
