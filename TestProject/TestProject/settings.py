@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'fontawesome-free',
     'channels',
     'testapp.apps.TestappConfig',
     'controlqueue.apps.ControlqueueConfig',

@@ -1,0 +1,30 @@
+body {
+  font: normal 1em Arial, sans-serif;
+  color: #424242;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 40em;
+  margin: auto;
+  margin-bottom: 6em;
+}
+.container .icon {
+  display: static;
+  background-color: #5d9c9c;
+  padding: 0.2em;
+  border: solid #5d9c9c;
+  border-radius: 0.2em;
+}
+.container .icon:not(:last-child) {
+  margin-bottom: 0.1em;
+}
+.container .icon:hover, .container .icon .icon:active {
+  cursor: pointer;
+  border: solid #424242;
+}
+
+/*# sourceMappingURL=styles.css.map */
