@@ -1,12 +1,41 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta name="viewport" content="width=device-with, initial-scale=1.0">
 	<meta charset="utf-8">
 	<title>Test app</title>
+	<script>
+		const personImgSource = '{% static "testapp/images/person.png" %}';
+
+		document.addEventListener('DOMContentLoaded', function() {
+			const socket = new WebSocket(`ws://${window.location.host}/ws/queue/`);
+
+			socket.onmessage = function(event) {
+				/* When establish the connection to the websocket server
+				it's gonna display the queue according with the size */
+				const data = JSON.parse(event.data);
+				console.log(data.queueSize);
+
+				const queueContainer = document.querySelector('#queueContainer');
+
+				for (let i = 0; i < data.queueSize; i++) {
+					const person = document.createElement('img');
+
+					person.setAttribute('src', personImgSource);
+					person.classList.add('person');
+					queueContainer.append(person);
+				}
+			};
+		});
+	</script>
 </head>
 <body>
 	<h1>Hello world! :)</h1>
 	<h2>Click <a href="{% url 'controlqueue:restrict' %}">here</a> to go to the restricted area</h2>
+	<div id="queueContainer">
+		<!-- The queue will be generated here via websocket -->
+	</div>
 </body>
 </html>
