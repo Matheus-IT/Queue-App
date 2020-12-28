@@ -8,38 +8,74 @@
 	<script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
-			document.querySelector('#increase').onclick = handleIncreaseQueueSize;
+			const buttonIncrease = document.querySelector('#increase');
+			buttonIncrease.onclick = function() {
+				try {
+					handleIncreaseQueueSize();
+				} catch(err) {
+					console.log(err);
+				}
+			}
 
-			document.querySelector('#decrease').onclick = handleDecreaseQueueSize;
+			const buttonDecrease = document.querySelector('#decrease');
+			buttonDecrease.onclick = function() {
+				try {
+					handleDecreaseQueueSize();
+				} catch(err) {
+					console.log(err);
+				}
+			}
 
-			
 			const socket = new WebSocket(`ws://${window.location.host}/ws/queue/`);
+			const queueDomObject = document.querySelector('#displayQueueSize');
+			let queueSize;
+			
 			socket.onmessage = function(event) {
-				console.log(event.data);
+				/* When it first connects to the websocket server it's going to
+				receive and update the queue size */
+				const data = JSON.parse(event.data);
+				console.log(data);
+				queueSize = data.queueSize;
+				updateQueueSize(data.queueSize, queueDomObject);
 			};
+
+			// I ALSO NEED A WAY TO DELETE THE QUEUE
+
+			function handleIncreaseQueueSize() {
+				queueSize++;
+
+				updateQueueSize(queueSize, queueDomObject);
+				communicateToWebsocketServer(queueSize);
+			}
+
+			function handleDecreaseQueueSize() {
+				if (queueSize > 0) {
+					queueSize--;
+
+					updateQueueSize(queueSize, queueDomObject);
+					communicateToWebsocketServer(queueSize);
+				}
+			}
+
+			function updateQueueSize(newQueueSize, queueDomObj) {
+				queueDomObj.innerHTML = newQueueSize;
+			}
+
+			function communicateToWebsocketServer(newQueueSize) {
+				socket.send(JSON.stringify({
+					queue_size: newQueueSize,
+				}));
+			}
 		});
-
-		function handleIncreaseQueueSize() {
-			document.querySelector('#queueSize').innerHTML++;
-		}
-
-		function handleDecreaseQueueSize() {
-			const queueSize = document.querySelector('#queueSize');
-
-			if (queueSize.innerHTML > 0)
-				queueSize.innerHTML--;
-		}
 	</script>
 {% endblock %}
 
 {% block content %}
-	<h1 style="color: orange">This area is forbidden! Only admin users have access!</h1>
-	
 	<div class="container control">
 		<h1>From here you can control if the queue has became bigger (+) or smaller (-)</h1>
 
 		<h2>
-			Queue size: <span id="queueSize">0</span>
+			Queue size: <span id="displayQueueSize"></span>
 		</h2>
 
 		<span id="increase" class="icon" style="font-size: 6em">
