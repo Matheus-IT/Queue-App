@@ -7,25 +7,27 @@ import json
 class QueueConsumer(AsyncWebsocketConsumer):
 	GROUP_NAME = 'awaiting_queue'
 
+	async def handle_add_user_to_channel_group(self, received_group_name):	
+		# Accept just users who are trying to connect to the right
+		# room name, to avoid cross site forgery
+		if received_group_name == self.GROUP_NAME:
+			await self.channel_layer.group_add(
+				self.GROUP_NAME,
+				self.channel_name
+			)
+
+			print(f'Success! Connected to {self.GROUP_NAME}')
+		else:
+			await self.close()
+			print('Fail! User trying to connect to a different room name')
+
+
 	async def connect(self):
 		try:
 			received_group_name = self.scope['url_route']['kwargs']['group_name']
-			
-			# Accept just users who are trying to connect to the right
-			# room name, to avoid cross site forgery
-			if received_group_name == self.GROUP_NAME:
-				await self.channel_layer.group_add(
-					self.GROUP_NAME,
-					self.channel_name
-				)
-
-				print(f'Success! Connected to {self.GROUP_NAME}')
-			else:
-				print('Fail! User trying to connect to a different room name')
-				await self.close()
-				return
+			await self.handle_add_user_to_channel_group(received_group_name)
 		except KeyError:
-			# In case of supperusers changing the size of the queue
+			# In case of SUPERUSERS changing the size of the queue
 			# they don't send a group_name over the url
 			pass
 
