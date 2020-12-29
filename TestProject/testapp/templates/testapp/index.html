@@ -10,43 +10,60 @@
 		const personImgSource = '{% static "testapp/images/person.png" %}';
 
 		document.addEventListener('DOMContentLoaded', function() {
-			const roomName = document.getElementById('room-name').textContent;
+			const roomName = document.getElementById('room-name').innerText;
 			const socket = new WebSocket(`ws://${window.location.host}/ws/queue/${roomName}/`);
-			let queueSize;
+			const queueContainer = document.querySelector('#queueContainer');
 
+			socket.onopen = function(event) {
+				console.log('WebSocket is open now');
+			};
+			
 			socket.onmessage = function(event) {
-				/* When establish the connection to the websocket server
-				it's gonna display the queue according with the size */
 				const data = JSON.parse(event.data);
 				console.log(data);
-				
-				const queueContainer = document.querySelector('#queueContainer');
 
+				/* When fist establish the connection with the websocket server
+				it's gonna receive the queue size */
 				if (data.queueSize) {
-					for (let i = 0; i < data.queueSize; i++) {
-						queueSize = data.queueSize;
-						const person = document.createElement('img');
-
-						person.setAttribute('src', personImgSource);
-						person.classList.add('person');
-						queueContainer.append(person);
-					}
+					handleDisplayQueue(data.queueSize, queueContainer);
 				} else {
-					if (data.hasTheQueueIncreased) {
-						queueSize++;
-						const person = document.createElement('img');
-	
-						person.setAttribute('src', personImgSource);
-						person.classList.add('person');
-						queueContainer.append(person);
-					} else {
-						queueSize--;
-	
-						const firstPerson = queueContainer.firstElementChild;
-						firstPerson.remove();
-					}
+					/* During the connection, the superuser controlling the queue size
+					may have increased or decreased the queue */
+					if (data.hasTheQueueIncreased)
+						handleIncreaseQueue(queueContainer);
+					else
+						handleDecreaseQueue(queueContainer);
 				}
 			};
+			
+			socket.onerror = function(event) {
+				console.error(`WebSocket error observed: ${event}`);
+			}
+
+			function handleDisplayQueue(queueSize, queueContainer) {
+				for (let i = 0; i < queueSize; i++) {
+					const person = createPerson();
+					queueContainer.append(person);
+				}
+			}
+
+			function handleIncreaseQueue(queueContainer) {
+				const person = createPerson();
+				queueContainer.append(person);
+			}
+
+			function createPerson() {
+				const person = document.createElement('img');
+	
+				person.setAttribute('src', personImgSource);
+				person.classList.add('person');
+				return person;
+			}
+
+			function handleDecreaseQueue(queueContainer) {
+				const firstPerson = queueContainer.firstElementChild;
+				firstPerson.remove();
+			}
 		});
 	</script>
 </head>
