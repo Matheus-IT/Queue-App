@@ -1,17 +1,76 @@
-.personWalking {
+#hairSalonContainer {
   position: relative;
-  animation-name: walk;
+  margin: auto;
+  padding: 0;
+}
+@media only screen and (max-width: 500px) {
+  #hairSalonContainer {
+    width: 98%;
+  }
+}
+@media only screen and (min-width: 501px) {
+  #hairSalonContainer {
+    width: 60%;
+  }
+}
+@media only screen and (min-width: 769px) {
+  #hairSalonContainer {
+    width: 40%;
+  }
+}
+#hairSalonContainer #hairSalonBackground {
+  width: 100%;
+  margin: auto;
+  padding: 0;
+  z-index: 0;
+}
+#hairSalonContainer #queueContainer {
+  position: absolute;
+  width: 64%;
+  height: 60%;
+  left: 36%;
+  bottom: 0;
+}
+#hairSalonContainer #queueContainer .person {
+  position: relative;
+  width: 30%;
+  height: 100%;
+  z-index: 10;
+}
+#hairSalonContainer #queueContainer .personArrivingWalking {
+  position: relative;
+  animation-name: arrivesWalking;
   animation-duration: 2s;
-  animation-direction: forwards;
+  animation-fill-mode: forwards;
   animation-timing-function: ease-out;
 }
-
-@keyframes walk {
+@keyframes arrivesWalking {
   from {
     left: 75%;
   }
   to {
     left: 0;
+  }
+}
+#hairSalonContainer #queueContainer .personWalkingAway {
+  position: relative;
+  animation-name: walksAway;
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in;
+}
+@keyframes walksAway {
+  from {
+    left: 0;
+    width: 30%;
+    height: 100%;
+    opacity: 1;
+  }
+  to {
+    left: -4.6em;
+    width: 0;
+    height: 100%;
+    opacity: 0;
   }
 }
 

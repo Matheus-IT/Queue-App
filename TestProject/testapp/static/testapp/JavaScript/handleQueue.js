@@ -10,27 +10,41 @@ export function handleIncreaseQueue(queueContainer) {
 	queueContainer.append(person);
 
 	person.onanimationend = function() {
-		this.setAttribute('src', personImgSource);
-	}
+		this.setAttribute('src', personWaitingSource);
+	};
 }
 
 function createPersonWalking() {
 	const personWalking = document.createElement('img');
 
 	personWalking.setAttribute('src', personWalkingSource);
-	personWalking.classList.add('personWalking');
+	personWalking.className = 'person';
+	personWalking.classList.add('personArrivingWalking');
 	return personWalking;
 }
 
 function createPerson() {
 	const person = document.createElement('img');
 
-	person.setAttribute('src', personImgSource);
+	person.setAttribute('src', personWaitingSource);
 	person.classList.add('person');
 	return person;
 }
 
 export function handleDecreaseQueue(queueContainer) {
+	const people = queueContainer.children;
+
+	Array.from(people).forEach(person => {
+		person.setAttribute('src', personWalkingSource);
+	});
+
 	const firstPerson = queueContainer.firstElementChild;
-	firstPerson.remove();
+	firstPerson.classList.add('personWalkingAway');
+	firstPerson.onanimationend = function() {
+		firstPerson.remove();
+
+		Array.from(people).forEach(person => {
+			person.setAttribute('src', personWaitingSource);
+		});
+	};
 }
