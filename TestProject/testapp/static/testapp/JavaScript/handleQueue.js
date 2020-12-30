@@ -6,8 +6,20 @@ export function handleDisplayQueue(queueSize, queueContainer) {
 }
 
 export function handleIncreaseQueue(queueContainer) {
-	const person = createPerson();
+	const person = createPersonWalking();
 	queueContainer.append(person);
+
+	person.onanimationend = function() {
+		this.setAttribute('src', personImgSource);
+	}
+}
+
+function createPersonWalking() {
+	const personWalking = document.createElement('img');
+
+	personWalking.setAttribute('src', personWalkingSource);
+	personWalking.classList.add('personWalking');
+	return personWalking;
 }
 
 function createPerson() {
