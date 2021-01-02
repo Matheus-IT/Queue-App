@@ -17,20 +17,44 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 	}
 
-	const socket = new WebSocket(`ws://${window.location.host}/ws/queue/`);
 	const queueDomObject = document.querySelector('#displayQueueSize');
 	let queueSize;
-	
-	socket.onmessage = function(event) {
-		/* When it first connects to the websocket server it's going to
-		receive and update the queue size */
+
+	let socket;
+	socketClose();
+
+	function socketOpen(event) {
+		console.log('WebSocket connection open!');
+	}
+
+	function socketMessage(event) {
+		/**
+		 * When it first connects to the websocket server it's going to
+		 * receive and update the queue size
+		 */
 		const data = JSON.parse(event.data);
 		console.log(data);
 		queueSize = data.queueSize;
 		updateQueueSize(data.queueSize, queueDomObject);
-	};
+	}
 
-	// I ALSO NEED A WAY TO DELETE THE QUEUE
+	function socketClose(event) {
+		/**
+		 * Connects to the server, such that when the connection is lost it tries
+		 * to reconnect to the websocket server
+		 */
+		const WEBSOCKET_QUEUE_URL = `ws://${window.location.host}/ws/queue/`;
+		socket = new WebSocket(WEBSOCKET_QUEUE_URL);
+
+		socket.onopen = socketOpen;
+		socket.onmessage = socketMessage;
+		socket.onclose = socketClose;
+		socket.onerror = socketError;
+	}
+
+	function socketError(event) {
+		console.log("WebSocket Error: " + JSON.stringify(event));
+	}
 
 	function handleIncreaseQueueSize() {
 		queueSize++;
