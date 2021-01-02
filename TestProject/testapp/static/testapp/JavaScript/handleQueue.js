@@ -38,13 +38,29 @@ export function handleDecreaseQueue(queueContainer) {
 		person.setAttribute('src', personWalkingSource);
 	});
 
-	const firstPerson = queueContainer.firstElementChild;
-	firstPerson.classList.add('personWalkingAway');
-	firstPerson.onanimationend = function() {
-		firstPerson.remove();
+	const nextPerson = getNextElementDoesntContainClass(queueContainer, 'personWalkingAway');
 
-		Array.from(people).forEach(person => {
-			person.setAttribute('src', personWaitingSource);
-		});
-	};
+	if (nextPerson) {
+		nextPerson.classList.add('personWalkingAway');
+	
+		nextPerson.onanimationend = function() {
+			nextPerson.remove();
+	
+			Array.from(people).forEach(person => {
+				person.setAttribute('src', personWaitingSource);
+			});
+		};
+	}
+}
+
+function getNextElementDoesntContainClass(container, className) {
+	/**
+	 * Returns the next element that doesn't have the give class
+	 */
+	let nextPerson = container.firstElementChild;
+
+	while (nextPerson.classList.contains(className)) {
+		nextPerson = nextPerson.nextElementSibling;
+	}
+	return nextPerson;
 }
