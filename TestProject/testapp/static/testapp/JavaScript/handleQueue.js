@@ -1,4 +1,6 @@
 export function handleDisplayQueue(queueSize, queueContainer) {
+	queueContainer.innerHTML = '';
+
 	for (let i = 0; i < queueSize; i++) {
 		const person = createPerson();
 		queueContainer.append(person);

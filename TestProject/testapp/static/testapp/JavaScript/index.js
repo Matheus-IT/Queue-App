@@ -3,15 +3,30 @@ import * as handleQueue from './handleQueue.js';
 
 document.addEventListener('DOMContentLoaded', function() {
 	const roomName = document.getElementById('room-name').innerText;
-	const socket = new WebSocket(`ws://${window.location.host}/ws/queue/${roomName}/`);
 	const queueContainer = document.querySelector('#queueContainer');
-
-	socket.onopen = function(event) {
-		console.log('WebSocket is open now');
-	};
 	
-	socket.onmessage = function(event) {
+	let socket;
+	handleSocketClose();
+
+	function handleSocketClose(event) {
+		/**
+		 * Connects to the websocket server, tries to reconnect if the connection is lost
+		 */
+		socket = new WebSocket(`ws://${window.location.host}/ws/queue/${roomName}/`);
+
+		socket.onopen = handleSocketOpen;
+		socket.onmessage = handleSocketMessage;
+		socket.onerror = handleSocketError;
+		socket.onclose = handleSocketClose;
+	}
+
+	function handleSocketOpen(event) {
+		console.log('WebSocket is open now');
+	}
+
+	function handleSocketMessage(event) {
 		const data = JSON.parse(event.data);
+
 		console.log(data);
 
 		/* When fist establish the connection with the websocket server
@@ -26,9 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			else
 				handleQueue.handleDecreaseQueue(queueContainer);
 		}
-	};
-	
-	socket.onerror = function(event) {
+	}
+
+	function handleSocketError(event) {
 		console.error(`WebSocket error observed: ${event}`);
 	}
 });
