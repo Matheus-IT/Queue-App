@@ -5,7 +5,7 @@ controlqueue/migrations/__pycache__/*.pyc
 controlqueue/tests/__pycache__/*.pyc
 testapp/__pycache__/*.pyc
 testapp/migrations/__pycache__/*.pyc
-controlqueue/tests/__pycache__/*.pyc
+testapp/tests/__pycache__/*.pyc
 venv/
 /.vscode/
 db.sqlite3
