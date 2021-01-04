@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  Tests_app_on_each_push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: Run tests
+        run: |
+          pip3 install --user django
+          python3 manage.py test
