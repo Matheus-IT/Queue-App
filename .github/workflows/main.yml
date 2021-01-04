@@ -12,5 +12,5 @@ jobs:
       - name: Run tests
         run: |
           pip3 install -r requirements.txt
-          cd /Queue-App/TestProject/
+          cd ./Queue-App/TestProject/
           python3 manage.py test
