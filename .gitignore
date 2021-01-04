@@ -1,9 +1,11 @@
 TestProject/.vscode/
-TestProject/TestProject/__pycache__/
-TestProject/controlqueue/__pycache__/
-TestProject/controlqueue/migrations/__pycache__/
-TestProject/testapp/__pycache__/
-TestProject/testapp/migrations/__pycache__/
+TestProject/__pycache__/*.pyc
+controlqueue/__pycache__/*.pyc
+controlqueue/migrations/__pycache__/*.pyc
+controlqueue/tests/__pycache__/*.pyc
+testapp/__pycache__/*.pyc
+testapp/migrations/__pycache__/*.pyc
+controlqueue/tests/__pycache__/*.pyc
 venv/
 /.vscode/
 db.sqlite3
