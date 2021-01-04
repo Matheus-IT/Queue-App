@@ -31,12 +31,24 @@ class Restrict(TestCase):
 		response = self.client.get(reverse(f'{APP_NAME}:restrict'))
 
 		self.assertEqual(response.status_code, 200)
+
+
+class NoticeAdminOnly(TestCase):
+	def setUp(self):
+		self.my_admin_data = {
+			'username': 'user_test',
+			'password': '12345'
+		}
+		
+		self.my_admin = User(username=self.my_admin_data['username'], is_staff=True, is_superuser=True)
+		self.my_admin.set_password(self.my_admin_data['password'])
+		self.my_admin.save()
 	
-	def test_get_notice_admin_only_as_anonymous_user(self):
+	def test_get_as_anonymous_user(self):
 		response = self.client.get(reverse(f'{APP_NAME}:notice_admin_only'))
 		self.assertEqual(response.status_code, 200)
 
-	def test_get_notice_admin_only_as_superuser(self):
+	def test_get_as_superuser(self):
 		self.client.login(
 			username = self.my_admin_data['username'],
 			password = self.my_admin_data['password']
