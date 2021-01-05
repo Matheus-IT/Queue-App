@@ -23,13 +23,14 @@ class QueueConsumer(AsyncWebsocketConsumer):
 
 
 	async def connect(self):
-		try:
-			received_group_name = self.scope['url_route']['kwargs']['group_name']
-			await self.handle_add_user_to_channel_group(received_group_name)
-		except KeyError:
-			# In case of SUPERUSERS changing the size of the queue
-			# they don't send a group_name over the url
-			pass
+		if self.scope['user'].is_superuser:
+			print('Superuser!')
+		else:
+			try:
+				received_group_name = self.scope['url_route']['kwargs']['group_name']
+				await self.handle_add_user_to_channel_group(received_group_name)
+			except Exception as e:
+				print(e)
 
 		await self.accept()
 
