@@ -3,10 +3,19 @@ body {
   color: #424242;
 }
 
+@media only screen and (max-width: 39.9375rem) {
+  html, body {
+    max-height: 100vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+}
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 .container .textContainer {
   margin: 1em 0;
@@ -14,6 +23,11 @@ body {
 }
 .container .textContainer #queueSizeWrapper {
   font-size: 1em;
+}
+.container .textContainer #queueSizeWrapper #displayQueueSize {
+  font-size: 1.4em;
+  font-weight: bolder;
+  margin-left: 0.2em;
 }
 @media only screen and (max-width: 39.9375rem) {
   .container .textContainer {
@@ -28,6 +42,7 @@ body {
   position: relative;
   margin: auto;
   padding: 0;
+  overflow-x: scroll;
 }
 @media only screen and (min-width: 40rem) {
   .container #hairSalonContainer {

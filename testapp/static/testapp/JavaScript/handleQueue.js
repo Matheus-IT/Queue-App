@@ -1,4 +1,5 @@
 export function handleDisplayQueue(queueSize, queueContainer) {
+	document.querySelector('#displayQueueSize').innerHTML = queueSize;
 	queueContainer.innerHTML = '';
 
 	for (let i = 0; i < queueSize; i++) {
@@ -8,6 +9,11 @@ export function handleDisplayQueue(queueSize, queueContainer) {
 }
 
 export function handleIncreaseQueue(queueContainer) {
+	const domQueueSizeObj = document.querySelector('#displayQueueSize');
+	let queueSize = Number.parseInt(domQueueSizeObj.innerHTML);
+	queueSize++;
+	domQueueSizeObj.innerHTML = queueSize;
+
 	const person = createPersonWalking();
 	queueContainer.append(person);
 
@@ -34,6 +40,11 @@ function createPerson() {
 }
 
 export function handleDecreaseQueue(queueContainer) {
+	const domQueueSizeObj = document.querySelector('#displayQueueSize');
+	let queueSize = Number.parseInt(domQueueSizeObj.innerHTML);
+	queueSize--;
+	domQueueSizeObj.innerHTML = queueSize;
+
 	const people = queueContainer.children;
 
 	Array.from(people).forEach(person => {

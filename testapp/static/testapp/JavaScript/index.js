@@ -4,7 +4,7 @@ import * as handleQueue from './handleQueue.js';
 document.addEventListener('DOMContentLoaded', function() {
 	const roomName = document.getElementById('room-name').innerText;
 	const queueContainer = document.querySelector('#queueContainer');
-	
+
 	let socket;
 	handleSocketClose();
 

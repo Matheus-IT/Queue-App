@@ -1,7 +1,18 @@
+@include breakpoint-down(small) {
+	html, body {
+		max-height: 100vh;
+		overflow-y: hidden;
+		overflow-x: hidden;
+	}
+}
+
 .container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+
+	margin: 0;
+	padding: 0;
 
 	.textContainer {
 		margin: 1em 0;
@@ -9,11 +20,16 @@
 
 		#queueSizeWrapper {
 			font-size: 1em;
+
+			#displayQueueSize {
+				font-size: 1.4em;
+				font-weight: bolder;
+				margin-left: 0.2em;
+			}
 		}
 
 		@include breakpoint-down(small) {
 			font-size: 1em;
-
 		}
 
 		& > * {
@@ -26,6 +42,8 @@
 		position: relative;
 		margin: auto;
 		padding: 0;
+
+		overflow-x: scroll;
 		
 		@include breakpoint-up(medium) {
 			width: 40%;
