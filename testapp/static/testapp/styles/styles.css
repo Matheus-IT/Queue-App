@@ -1,30 +1,49 @@
-#hairSalonContainer {
+body {
+  font: normal 1em Arial, sans-serif;
+  color: #424242;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .textContainer {
+  margin: 1em 0;
+  padding: 0;
+  text-align: center;
+}
+.container .textContainer > * {
+  margin: 0.2em;
+  padding: 0;
+}
+.container #hairSalonContainer {
   position: relative;
   margin: auto;
   padding: 0;
 }
 @media only screen and (min-width: 40rem) {
-  #hairSalonContainer {
+  .container #hairSalonContainer {
     width: 40%;
   }
 }
 @media only screen and (max-width: 63.9375rem) {
-  #hairSalonContainer {
+  .container #hairSalonContainer {
     width: 60%;
   }
 }
 @media only screen and (max-width: 39.9375rem) {
-  #hairSalonContainer {
+  .container #hairSalonContainer {
     width: 98%;
   }
 }
-#hairSalonContainer #hairSalonBackground {
+.container #hairSalonContainer #hairSalonBackground {
   width: 100%;
   margin: auto;
   padding: 0;
   z-index: 0;
 }
-#hairSalonContainer #queueContainer {
+.container #hairSalonContainer #queueContainer {
   position: absolute;
   display: flex;
   width: 64%;
@@ -32,13 +51,13 @@
   left: 36%;
   bottom: 0;
 }
-#hairSalonContainer #queueContainer .person {
+.container #hairSalonContainer #queueContainer .person {
   position: relative;
   width: 30%;
   height: 100%;
   z-index: 10;
 }
-#hairSalonContainer #queueContainer .personArrivingWalking {
+.container #hairSalonContainer #queueContainer .personArrivingWalking {
   position: relative;
   animation-name: arrivesWalking;
   animation-duration: 2s;
@@ -53,7 +72,7 @@
     left: 0;
   }
 }
-#hairSalonContainer #queueContainer .personWalkingAway {
+.container #hairSalonContainer #queueContainer .personWalkingAway {
   position: relative;
   animation-name: walksAway;
   animation-duration: 1.5s;
