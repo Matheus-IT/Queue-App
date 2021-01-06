@@ -5,7 +5,7 @@
 
 	text-align: center;
 	max-width: 25em;
-	min-height: 88vh;
+	min-height: 90vh;
 	max-height: 90vh;
 	margin: auto;
 	margin-top: 1.6em;
@@ -29,12 +29,17 @@
 	}
 
 	.icon {
-		display: static;
-		background-color: rgb(93, 156, 156);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: static;
 		padding: 0.2em;
+		height: 1em;
+
+		background-color: rgb(93, 156, 156);
 		border: solid rgb(93, 156, 156);
 		border-radius: 0.2em;
-		
+
 		&:not(:last-child) {
 			margin-bottom: 0.1em;
 		}
