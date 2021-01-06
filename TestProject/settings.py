@@ -25,7 +25,8 @@ SECRET_KEY = '_)lsjw(^m#1fe$-$71f4n229fazcl!nhx=zdx5!rtqsvg-=as#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+import socket
+ALLOWED_HOSTS = ['localhost', socket.gethostbyname(socket.gethostname())]
 
 
 # Application definition
