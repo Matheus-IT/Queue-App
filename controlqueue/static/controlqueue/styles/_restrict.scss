@@ -2,7 +2,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	/* justify-content: center; */
 
 	text-align: center;
 	max-width: 25em;
@@ -16,7 +15,7 @@
 	border-radius: 0.4em;
 	box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.12);
 
-	@media only screen and (max-width: 500px) {
+	@include breakpoint-down(small) {
 		margin-top: 1em;
 		padding-top: 1em;
 

@@ -3,19 +3,19 @@
   margin: auto;
   padding: 0;
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (min-width: 40rem) {
   #hairSalonContainer {
-    width: 98%;
+    width: 40%;
   }
 }
-@media only screen and (min-width: 501px) {
+@media only screen and (max-width: 63.9375rem) {
   #hairSalonContainer {
     width: 60%;
   }
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (max-width: 39.9375rem) {
   #hairSalonContainer {
-    width: 40%;
+    width: 98%;
   }
 }
 #hairSalonContainer #hairSalonBackground {

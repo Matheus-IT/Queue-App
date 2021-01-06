@@ -3,16 +3,16 @@
 	margin: auto;
 	padding: 0;
 	
-	@media only screen and (max-width: 500px) {
-		width: 98%;
+	@include breakpoint-up(medium) {
+		width: 40%;
 	}
-
-	@media only screen and (min-width: 501px) {
+	
+	@include breakpoint-down(medium) {
 		width: 60%;
 	}
-
-	@media only screen and (min-width: 769px) {
-		width: 40%;
+	
+	@include breakpoint-down(small) {
+		width: 98%;
 	}
 	
 	#hairSalonBackground {
