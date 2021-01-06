@@ -11,7 +11,14 @@ body {
 .container .textContainer {
   margin: 1em 0;
   padding: 0;
-  text-align: center;
+}
+.container .textContainer #queueSizeWrapper {
+  font-size: 0.9em;
+}
+@media only screen and (max-width: 39.9375rem) {
+  .container .textContainer {
+    font-size: 1em;
+  }
 }
 .container .textContainer > * {
   margin: 0.2em;

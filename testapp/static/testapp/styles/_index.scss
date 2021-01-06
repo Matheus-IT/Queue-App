@@ -6,7 +6,15 @@
 	.textContainer {
 		margin: 1em 0;
 		padding: 0;
-		text-align: center;
+
+		#queueSizeWrapper {
+			font-size: 0.9em;
+		}
+
+		@include breakpoint-down(small) {
+			font-size: 1em;
+
+		}
 
 		& > * {
 			margin: 0.2em;
