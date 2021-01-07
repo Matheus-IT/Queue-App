@@ -72,8 +72,10 @@ function getNextElementDoesntContainClass(container, className) {
 	 */
 	let nextPerson = container.firstElementChild;
 
-	while (nextPerson.classList.contains(className)) {
-		nextPerson = nextPerson.nextElementSibling;
+	if (nextPerson) {
+		while (nextPerson.classList.contains(className)) {
+			nextPerson = nextPerson.nextElementSibling;
+		}
+		return nextPerson;
 	}
-	return nextPerson;
 }
