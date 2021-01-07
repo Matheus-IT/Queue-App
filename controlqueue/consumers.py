@@ -16,25 +16,25 @@ class QueueConsumer(AsyncWebsocketConsumer):
 				self.channel_name
 			)
 
-			print(f'Success! Connected to {self.GROUP_NAME}')
+			return True
 		else:
-			await self.close()
-			print('Fail! User trying to connect to a different room name')
+			return False
 
 
 	async def connect(self):
-		if self.scope['user'].is_superuser:
-			print('Superuser!')
-		else:
-			try:
-				received_group_name = self.scope['url_route']['kwargs']['group_name']
-				await self.handle_add_user_to_channel_group(received_group_name)
-			except Exception as e:
-				print(e)
-
-		await self.accept()
-
 		try:
+			received_group_name = self.scope['url_route']['kwargs']['group_name']
+			user_was_added = await self.handle_add_user_to_channel_group(received_group_name)
+			
+			if user_was_added:
+				print(f'Success! Connected to {self.GROUP_NAME}')
+			else:
+				print('Fail! User trying to connect to a different room name')
+				await self.close()
+				return
+			
+			await self.accept()
+
 			queue = await self.get_queue()
 			print(queue)
 			await self.send(text_data=json.dumps({
@@ -43,7 +43,7 @@ class QueueConsumer(AsyncWebsocketConsumer):
 		except Exception as e:
 			print(e)
 
-	
+
 	@database_sync_to_async
 	def get_queue(self):
 		try:

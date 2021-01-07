@@ -1,24 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
+	const queueDomObject = document.querySelector('#displayQueueSize');
+	let queueSize = 0;
+
 	const buttonIncrease = document.querySelector('#increase');
 	buttonIncrease.onclick = function() {
-		try {
-			handleIncreaseQueueSize();
-		} catch(err) {
-			console.log(err);
-		}
+		communicateToWebsocketServer(queueSize + 1);
 	}
 
 	const buttonDecrease = document.querySelector('#decrease');
 	buttonDecrease.onclick = function() {
-		try {
-			handleDecreaseQueueSize();
-		} catch(err) {
-			console.log(err);
-		}
+		if (queueSize > 0)
+			communicateToWebsocketServer(queueSize - 1);
 	}
-
-	const queueDomObject = document.querySelector('#displayQueueSize');
-	let queueSize;
 
 	let socket;
 	socketClose();
@@ -30,12 +23,26 @@ document.addEventListener('DOMContentLoaded', function() {
 	function socketMessage(event) {
 		/**
 		 * When it first connects to the websocket server it's going to
-		 * receive and update the queue size
+		 * receive and update the queue size, after, it's gonna update the
+		 * queue size
 		 */
 		const data = JSON.parse(event.data);
-		console.log(data);
-		queueSize = data.queueSize;
-		updateQueueSize(data.queueSize, queueDomObject);
+
+		try {
+			if (data.hasOwnProperty('queueSize')) {
+				queueSize = data.queueSize;
+				updateQueueSize(data.queueSize, queueDomObject);
+			} else if (data.hasOwnProperty('hasTheQueueIncreased')) {
+				if (data.hasTheQueueIncreased)
+					handleIncreaseQueueSize();
+				else
+					handleDecreaseQueueSize();
+			} else {
+				throw 'A different property was passed';
+			}
+		} catch(err) {
+			console.error(err);
+		}
 	}
 
 	function socketClose(event) {
@@ -43,7 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		 * Connects to the server, such that when the connection is lost it tries
 		 * to reconnect to the websocket server
 		 */
-		const WEBSOCKET_QUEUE_URL = `ws://${window.location.host}/ws/queue/`;
+		const roomName = document.querySelector('#room-name').innerHTML;
+		const WEBSOCKET_QUEUE_URL = `ws://${window.location.host}/ws/queue/${roomName}/`;
 		socket = new WebSocket(WEBSOCKET_QUEUE_URL);
 
 		socket.onopen = socketOpen;
@@ -58,17 +66,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	function handleIncreaseQueueSize() {
 		queueSize++;
-
 		updateQueueSize(queueSize, queueDomObject);
-		communicateToWebsocketServer(queueSize);
 	}
 
 	function handleDecreaseQueueSize() {
 		if (queueSize > 0) {
 			queueSize--;
-
 			updateQueueSize(queueSize, queueDomObject);
-			communicateToWebsocketServer(queueSize);
 		}
 	}
 
